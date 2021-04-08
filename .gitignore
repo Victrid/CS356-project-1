@@ -1,8 +1,0 @@
-test*
-docs
-ndk
-kernel
-sdk
-*.ko
-*/*.ko
-*/.vscode
