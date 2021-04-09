@@ -1,3 +1,9 @@
+/**
+ * ptree.h 
+ * 
+ * this file is for prinfo definitions and some macros to get list item.
+ * 
+ */
 #ifndef __PTREE__
 #define __PTREE__
 

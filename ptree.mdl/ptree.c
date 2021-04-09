@@ -1,3 +1,7 @@
+/**
+ * ptree.c    -   the ptree kernel module file.
+ * 
+ */
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/sched.h>
@@ -97,21 +101,18 @@ int ptree(struct prinfo* buf, int* nr) {
     ktry(put_user(itend - itbegin, nr), FAIL_BA);
     return count;
 
+    /* catchers */
 FAIL_CU:
     kfree(itbegin);
 FAIL_BA:
     /* Bad access */
     return -EFAULT;
-
 FAIL_MALLOC:
     /* No enough memory */
     return -ENOMEM;
-
 FAIL_INVAL:
     /* Invalid argument */
-    return EINVAL;
-FAIL:
-    return -1;
+    return -EINVAL;
 }
 
 /* Syscall part, this is identical to the given examples. */

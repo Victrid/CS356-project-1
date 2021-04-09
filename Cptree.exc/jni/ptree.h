@@ -1,3 +1,10 @@
+/**
+ *      ptree.h
+ *
+ *  this file is for prinfo definitions.
+ *
+ */
+
 #ifndef __PTREE__
 #define __PTREE__
 

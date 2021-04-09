@@ -1,4 +1,7 @@
 /**
+ * kassert.h    -   kernel assertion and try-catch structure
+ * 
+ * 
  * About kassert and ktry:
  * 
  * kassert performs like ASSERT.h, running the following command when 
