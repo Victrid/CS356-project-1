@@ -11,7 +11,7 @@ build_exec_all: | $(EXECS)
 clean_exec: | $(patsubst %.exc,clean_exec_%,${EXECS})
 
 $(EXECS): 
-	ndk-build -C $@
+	+ndk-build -C $@
 
 $(patsubst %.exc,clean_exec_%,${EXECS}):
 	rm -rf ${patsubst clean_exec_%,%.exc,$@}/libs
@@ -25,10 +25,10 @@ build_module_all: | $(MODULES)
 clean_module: | $(patsubst %.mdl,clean_mdl_%,${MODULES})
 
 $(MODULES):
-	make -C $@
+	+make -C $@
 
 $(patsubst %.mdl,clean_mdl_%,${MODULES}):
-	make -C ${patsubst clean_mdl_%,%.mdl,$@} clean
+	+make -C ${patsubst clean_mdl_%,%.mdl,$@} clean
 
 $(patsubst %.mdl,push_%,${MODULES}): push_% :%.mdl avd.lock
 	adb shell "mkdir -p /data/misc/osprj"

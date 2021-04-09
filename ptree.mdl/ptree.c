@@ -5,21 +5,22 @@
 #include <linux/uaccess.h> /* kernel-user memory */
 #include <linux/unistd.h>
 
-#include "ptree.h"
 #include "kassert.h"
+#include "ptree.h"
 
 MODULE_LICENSE("GPL");
 
 /**
- * genprinfo  -   generate prinfo from task_struct
- * @ts: task_struct pointer
- * @pr: destination prinfo location
+ * @brief generate prinfo from task_struct
+ * @param ts task_struct pointer
+ * @param pr destination prinfo location
+ * @return (void)
  */
 void genprinfo(ts_t* ts, prinfo_t* pr) {
     /* kassert is a macro defined in kassert.h */
     kassert(ts != NULL && pr != NULL, return 0);
-    pr->parent_pid       = ts->parent == NULL ? 0 : ts->parent->pid;
-    pr->pid              = ts->pid;
+    pr->parent_pid = ts->parent == NULL ? 0 : ts->parent->pid;
+    pr->pid        = ts->pid;
     /* get_first_pid is a macro defined in ptree.h */
     pr->first_child_pid  = get_first_pid(&(ts->children));
     pr->next_sibling_pid = get_first_pid(&(ts->sibling));
@@ -30,15 +31,15 @@ void genprinfo(ts_t* ts, prinfo_t* pr) {
 }
 
 /**
- * dfs  -   Deep-First search the task_struct, use static to prevent running
+ * @brief Deep-First search the task_struct, use static to prevent running
  * from other file.
- * @ts:  root task_struct
- * @ptr: pointer of pointer to the avavilable empty space for prinfo. This is
- *       to simulate the *& job in C++, while reference is not available for
- *       C.
- * @end: When *ptr == end, the function will not stop writing but continue to
- *       traverse the process tree.
- * @return: returning the sons count under the root pointer.
+ * @param ts root task_struct
+ * @param ptr pointer of pointer to the avavilable empty space for prinfo.
+ * This is to simulate the *& job in C++, while reference is not available
+ * for C.
+ * @param end When *ptr == end, the function will not stop writing but
+ * continue to traverse the process tree.
+ * @return returning the sons count under the root pointer.
  */
 static int dfs(ts_t* ts, prinfo_t** ptr, prinfo_t* end) {
     int count;
@@ -46,33 +47,34 @@ static int dfs(ts_t* ts, prinfo_t** ptr, prinfo_t* end) {
     kassert(ts != NULL && *ptr != NULL, return 0);
     count = 1;
     if (*ptr < end) {
+        /* Write to pointed location when not the pointer does not meet end */
         genprinfo(ts, *ptr);
         (*ptr)++;
     }
-    list_for_each_entry(iter, &(ts->children), sibling) 
-        count += dfs(iter, ptr, end);
+    /* Traverse all childrens with dfs */
+    list_for_each_entry(iter, &(ts->children), sibling) count +=
+        dfs(iter, ptr, end);
     return count;
 }
 
 /**
- * ptree    -   the ptree function required.
- * @buf:  userspace buffer pointer
- * @nr:   userspace buffer length pointer
- * @return: total process count when correct.
- *          will return -1 if error happened.
+ * @brief the ptree syscall handler.
+ * @param prinfo userspace buffer pointer
+ * @param nr userspace buffer length pointer
+ * @return total process count when correct, will return -1 if error happened.
  */
 int ptree(struct prinfo* buf, int* nr) {
     int real_nr, count;
     prinfo_t *itend, *itbegin, **iter, *pend;
-    
-    /** Check for boundary conditions: NULL pointers, fail to get user 
+
+    /** Check for boundary conditions: NULL pointers, fail to get user
      *  data, or the nr given by user is less than 1.
-     * 
+     *
      *  ktry is a macro defined in kassert.h
      */
-    ktry(buf == NULL || nr == NULL, FAIL);
-    ktry(get_user(real_nr, nr), FAIL);
-    ktry(real_nr<=0, FAIL);
+    ktry(buf == NULL || nr == NULL, FAIL_BA);
+    ktry(get_user(real_nr, nr), FAIL_BA);
+    ktry(real_nr <= 0, FAIL_INVAL);
 
     /** itbegin and itend points to the buffer's head and tail, the pend
      *  points to the end bound of the buffer, and iter points to the tail
@@ -82,22 +84,33 @@ int ptree(struct prinfo* buf, int* nr) {
     itend   = itbegin;
     iter    = &itend;
     pend    = itbegin + real_nr;
-    ktry(itbegin == NULL, FAIL);
+    ktry(itbegin == NULL, FAIL_MALLOC);
 
     read_lock(&tasklist_lock);
     count = dfs(&init_task, iter, pend);
     read_unlock(&tasklist_lock);
 
     /* When copy_to_user failed we must free the allocated memories. */
-    ktry(copy_to_user(buf, itbegin, (itend - itbegin)* sizeof(prinfo_t)),
-        FAIL_FREE);
+    ktry(copy_to_user(buf, itbegin, (itend - itbegin) * sizeof(prinfo_t)),
+         FAIL_CU);
     kfree(itbegin);
-    ktry(put_user(itend - itbegin ,nr), FAIL);
+    ktry(put_user(itend - itbegin, nr), FAIL_BA);
     return count;
 
-    FAIL_FREE:
+FAIL_CU:
     kfree(itbegin);
-    FAIL:
+FAIL_BA:
+    /* Bad access */
+    return -EFAULT;
+
+FAIL_MALLOC:
+    /* No enough memory */
+    return -ENOMEM;
+
+FAIL_INVAL:
+    /* Invalid argument */
+    return EINVAL;
+FAIL:
     return -1;
 }
 
