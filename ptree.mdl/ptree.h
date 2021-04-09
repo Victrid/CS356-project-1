@@ -8,9 +8,6 @@
 #include <linux/unistd.h>
 #include <linux/printk.h>
 
-/* This is important if we want to use some kernel definitions */
-#define __KERNEL__
-
 /* definition for prinfo */
 struct prinfo {
     pid_t parent_pid;

@@ -18,7 +18,7 @@ MODULE_LICENSE("GPL");
 void genprinfo(ts_t* ts, prinfo_t* pr) {
     /* kassert is a macro defined in kassert.h */
     kassert(ts != NULL && pr != NULL, return 0);
-    pr->parent_pid       = ts->parent == NULL ? 0 : ts->parent;
+    pr->parent_pid       = ts->parent == NULL ? 0 : ts->parent->pid;
     pr->pid              = ts->pid;
     /* get_first_pid is a macro defined in ptree.h */
     pr->first_child_pid  = get_first_pid(&(ts->children));
