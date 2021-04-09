@@ -14,8 +14,8 @@ $(EXECS):
 	ndk-build -C $@
 
 $(patsubst %.exc,clean_exec_%,${EXECS}):
-	rm -rf ${patsubst clear_exec_%,%.exc,$@}/libs
-	rm -rf ${patsubst clear_exec_%,%.exc,$@}/obj
+	rm -rf ${patsubst clean_exec_%,%.exc,$@}/libs
+	rm -rf ${patsubst clean_exec_%,%.exc,$@}/obj
 
 .PHONY: $(MODULES) build_module_all clean_module 
 .PHONY: $(patsubst %.mdl,clean_mdl_%,${MODULES})
