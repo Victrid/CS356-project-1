@@ -1,0 +1,428 @@
+adb shell "${DEST_FOLDER}/helloARM"
+HelloWorld!
+adb shell "echo robust ptree without module"
+robust ptree without module
+adb shell "${DEST_FOLDER}/ptree || true"
+ptree failed: Invalid argument
+Maybe ptree module not loaded?
+adb shell "echo load module and run again"
+load module and run again
+adb shell "insmod ${DEST_FOLDER}/ptree.ko"
+adb shell "${DEST_FOLDER}/ptree"
+swapper,0,0,0,1,0,0
+        init,1,1,0,43,2,0
+                ueventd,43,1,1,0,60,0
+                logd,60,1,1,0,61,1036
+                vold,61,1,1,0,68,0
+                healthd,68,1,1,0,69,0
+                lmkd,69,1,1,0,70,0
+                servicemanager,70,1,1,0,71,1000
+                surfaceflinger,71,1,1,0,73,1000
+                qemud,73,1,1,0,76,0
+                sh,76,1,1,0,77,2000
+                adbd,77,1,1,4769,78,0
+                        ptree,4769,0,77,0,1,0
+                netd,78,1,1,0,79,0
+                debuggerd,79,1,1,0,80,0
+                rild,80,1,1,0,81,1001
+                drmserver,81,1,1,0,82,1019
+                mediaserver,82,1,1,0,83,1013
+                installd,83,1,1,0,84,0
+                keystore,84,1,1,0,85,1017
+                main,85,1,1,275,88,0
+                        system_server,275,1,85,0,450,1000
+                        ndroid.systemui,450,1,85,0,647,10013
+                        putmethod.latin,647,1,85,0,656,10032
+                        m.android.phone,656,1,85,0,667,1001
+                        droid.launcher3,667,1,85,0,694,10007
+                        d.process.acore,694,1,85,0,737,10002
+                        droid.deskclock,737,1,85,0,775,10023
+                        d.process.media,775,1,85,0,893,10005
+                        .quicksearchbox,893,1,85,0,910,10042
+                        ndroid.settings,910,1,85,0,924,1000
+                        ndroid.calendar,924,1,85,0,943,10019
+                        viders.calendar,943,1,85,0,1027,10001
+                        m.android.email,1027,1,85,0,1043,10027
+                        ndroid.exchange,1043,1,85,0,1,10029
+                gatekeeperd,88,1,1,0,89,1000
+                perfprofd,89,1,1,0,90,0
+                fingerprintd,90,1,1,0,1,1000
+        kthreadd,2,1,0,3,0,0
+                ksoftirqd/0,3,1,2,0,5,0
+                kworker/u:0,5,1,2,0,6,0
+                khelper,6,1,2,0,7,0
+                sync_supers,7,1,2,0,8,0
+                bdi-default,8,1,2,0,9,0
+                kblockd,9,1,2,0,10,0
+                rpciod,10,1,2,0,12,0
+                kswapd0,12,1,2,0,13,0
+                fsnotify_mark,13,1,2,0,14,0
+                crypto,14,1,2,0,25,0
+                kworker/u:1,25,1,2,0,30,0
+                mtdblock0,30,1,2,0,35,0
+                mtdblock1,35,1,2,0,40,0
+                mtdblock2,40,1,2,0,41,0
+                binder,41,1,2,0,42,0
+                deferwq,42,1,2,0,45,0
+                jbd2/mtdblock0-,45,1,2,0,46,0
+                ext4-dio-unwrit,46,1,2,0,47,0
+                kworker/0:2,47,1,2,0,52,0
+                jbd2/mtdblock1-,52,1,2,0,53,0
+                ext4-dio-unwrit,53,1,2,0,58,0
+                jbd2/mtdblock2-,58,1,2,0,59,0
+                ext4-dio-unwrit,59,1,2,0,99,0
+                kauditd,99,1,2,0,4620,0
+                kworker/0:0,4620,1,2,0,4679,0
+                flush-31:1,4679,1,2,0,0,0
+adb shell "echo robust ptreetest input"
+robust ptreetest input
+adb shell "${DEST_FOLDER}/ptreetest || true"
+Invalid argument
+Usage: /data/misc/osprj/ptreetest <path to ptree>
+adb shell "echo robust ptreetest without module"
+robust ptreetest without module
+adb shell "rmmod ${DEST_FOLDER}/ptree.ko"
+adb shell "${DEST_FOLDER}/ptreetest ${DEST_FOLDER}/ptree || true"
+519021911045Parent is 4782
+519021911045Child is 4783
+ptree failed: Invalid argument
+Maybe ptree module not loaded?
+Execution complete. Exiting..
+adb shell "echo load module and run again"
+load module and run again
+adb shell "insmod ${DEST_FOLDER}/ptree.ko"
+adb shell "cd ${DEST_FOLDER} && ./ptreetest ./ptree"
+519021911045Parent is 4788
+519021911045Child is 4790
+swapper,0,0,0,1,0,0
+        init,1,1,0,43,2,0
+                ueventd,43,1,1,0,60,0
+                logd,60,1,1,0,61,1036
+                vold,61,1,1,0,68,0
+                healthd,68,1,1,0,69,0
+                lmkd,69,1,1,0,70,0
+                servicemanager,70,1,1,0,71,1000
+                surfaceflinger,71,1,1,0,73,1000
+                qemud,73,1,1,0,76,0
+                sh,76,1,1,0,77,2000
+                adbd,77,1,1,4788,78,0
+                        ptreetest,4788,1,77,4790,1,0
+                                ptree,4790,0,4788,0,1,0
+                netd,78,1,1,0,79,0
+                debuggerd,79,1,1,0,80,0
+                rild,80,1,1,0,81,1001
+                drmserver,81,1,1,0,82,1019
+                mediaserver,82,1,1,0,83,1013
+                installd,83,1,1,0,84,0
+                keystore,84,1,1,0,85,1017
+                main,85,1,1,275,88,0
+                        system_server,275,1,85,0,450,1000
+                        ndroid.systemui,450,1,85,0,647,10013
+                        putmethod.latin,647,1,85,0,656,10032
+                        m.android.phone,656,1,85,0,667,1001
+                        droid.launcher3,667,1,85,0,694,10007
+                        d.process.acore,694,1,85,0,737,10002
+                        droid.deskclock,737,1,85,0,775,10023
+                        d.process.media,775,1,85,0,893,10005
+                        .quicksearchbox,893,1,85,0,910,10042
+                        ndroid.settings,910,1,85,0,924,1000
+                        ndroid.calendar,924,1,85,0,943,10019
+                        viders.calendar,943,1,85,0,1027,10001
+                        m.android.email,1027,1,85,0,1043,10027
+                        ndroid.exchange,1043,1,85,0,1,10029
+                gatekeeperd,88,1,1,0,89,1000
+                perfprofd,89,1,1,0,90,0
+                fingerprintd,90,1,1,0,1,1000
+        kthreadd,2,1,0,3,0,0
+                ksoftirqd/0,3,1,2,0,5,0
+                kworker/u:0,5,1,2,0,6,0
+                khelper,6,1,2,0,7,0
+                sync_supers,7,1,2,0,8,0
+                bdi-default,8,1,2,0,9,0
+                kblockd,9,1,2,0,10,0
+                rpciod,10,1,2,0,12,0
+                kswapd0,12,1,2,0,13,0
+                fsnotify_mark,13,1,2,0,14,0
+                crypto,14,1,2,0,25,0
+                kworker/u:1,25,1,2,0,30,0
+                mtdblock0,30,1,2,0,35,0
+                mtdblock1,35,1,2,0,40,0
+                mtdblock2,40,1,2,0,41,0
+                binder,41,1,2,0,42,0
+                deferwq,42,1,2,0,45,0
+                jbd2/mtdblock0-,45,1,2,0,46,0
+                ext4-dio-unwrit,46,1,2,0,47,0
+                kworker/0:2,47,1,2,0,52,0
+                jbd2/mtdblock1-,52,1,2,0,53,0
+                ext4-dio-unwrit,53,1,2,0,58,0
+                jbd2/mtdblock2-,58,1,2,0,59,0
+                ext4-dio-unwrit,59,1,2,0,99,0
+                kauditd,99,1,2,0,4620,0
+                kworker/0:0,4620,1,2,0,4679,0
+                flush-31:1,4679,1,2,0,0,0
+Execution complete. Exiting..
+adb shell "echo burger buddies problem"
+burger buddies problem
+adb shell "echo robust input"
+robust input
+adb shell "${DEST_FOLDER}/burger || true"
+Invalid argument.
+Usage: /data/misc/osprj/burger racksize cooks cashiers customers
+adb shell "${DEST_FOLDER}/burger 1 2 4 -1 || true"
+Invalid argument.
+racksize cooks cashiers should be positive, and customers should be no less than zero
+adb shell "echo sample 1"
+sample 1
+adb shell "${DEST_FOLDER}/burger 1 1 1 5"
+Start
+-------------------
+-U4     customer 4 comes.
+-U3     customer 3 comes.
+-U2     customer 2 comes.
+-U1     customer 1 comes.
+-U0     customer 0 comes.
+-A0     cashier 0 on duty.
+-A0     cashier 0 accept customer 4 order.
+-O0     cook 0 on duty.
+-O0     cook 0 made a burger.
+-A0     cashier 0 serving a burger to customer 4.
+-U4     customer 4 received burger and leave.
+-A0     cashier 0 entertained customer 4 and ready for next.
+-A0     cashier 0 accept customer 3 order.
+-O0     cook 0 made a burger.
+-A0     cashier 0 serving a burger to customer 3.
+-U3     customer 3 received burger and leave.
+-A0     cashier 0 entertained customer 3 and ready for next.
+-A0     cashier 0 accept customer 2 order.
+-O0     cook 0 made a burger.
+-A0     cashier 0 serving a burger to customer 2.
+-U2     customer 2 received burger and leave.
+-A0     cashier 0 entertained customer 2 and ready for next.
+-A0     cashier 0 accept customer 1 order.
+-O0     cook 0 made a burger.
+-A0     cashier 0 serving a burger to customer 1.
+-U1     customer 1 received burger and leave.
+-A0     cashier 0 entertained customer 1 and ready for next.
+-A0     cashier 0 accept customer 0 order.
+-O0     cook 0 made a burger.
+-A0     cashier 0 serving a burger to customer 0.
+-U0     customer 0 received burger and leave.
+-A0     cashier 0 entertained customer 0 and ready for next.
+-O0     cook 0 made a burger.
+-A0     cashier0 off duty.
+-O0     cook0 off duty.
+-------------------
+Complete.
+adb shell "echo sample 2"
+sample 2
+adb shell "${DEST_FOLDER}/burger 10 3 5 30"
+Start
+-------------------
+-O0     cook 0 on duty.
+-O0     cook 0 made a burger.
+-O0     cook 0 made a burger.
+-O0     cook 0 made a burger.
+-O0     cook 0 made a burger.
+-O0     cook 0 made a burger.
+-O0     cook 0 made a burger.
+-U4     customer 4 comes.
+-U22    customer 22 comes.
+-U9     customer 9 comes.
+-U24    customer 24 comes.
+-U6     customer 6 comes.
+-U14    customer 14 comes.
+-U17    customer 17 comes.
+-U18    customer 18 comes.
+-U26    customer 26 comes.
+-U27    customer 27 comes.
+-U5     customer 5 comes.
+-U11    customer 11 comes.
+-U25    customer 25 comes.
+-U28    customer 28 comes.
+-U29    customer 29 comes.
+-U7     customer 7 comes.
+-U8     customer 8 comes.
+-U10    customer 10 comes.
+-U13    customer 13 comes.
+-U16    customer 16 comes.
+-U21    customer 21 comes.
+-U15    customer 15 comes.
+-U19    customer 19 comes.
+-U20    customer 20 comes.
+-U23    customer 23 comes.
+-U12    customer 12 comes.
+-U3     customer 3 comes.
+-U1     customer 1 comes.
+-U0     customer 0 comes.
+-A4     cashier 4 on duty.
+-A4     cashier 4 accept customer 4 order.
+-A4     cashier 4 serving a burger to customer 4.
+-A3     cashier 3 on duty.
+-A3     cashier 3 accept customer 22 order.
+-A3     cashier 3 serving a burger to customer 22.
+-U4     customer 4 received burger and leave.
+-A2     cashier 2 on duty.
+-A2     cashier 2 accept customer 9 order.
+-A2     cashier 2 serving a burger to customer 9.
+-U22    customer 22 received burger and leave.
+-A4     cashier 4 entertained customer 4 and ready for next.
+-A4     cashier 4 accept customer 24 order.
+-A4     cashier 4 serving a burger to customer 24.
+-A1     cashier 1 on duty.
+-A1     cashier 1 accept customer 6 order.
+-A1     cashier 1 serving a burger to customer 6.
+-U9     customer 9 received burger and leave.
+-A3     cashier 3 entertained customer 22 and ready for next.
+-A3     cashier 3 accept customer 14 order.
+-A3     cashier 3 serving a burger to customer 14.
+-U24    customer 24 received burger and leave.
+-A0     cashier 0 on duty.
+-A0     cashier 0 accept customer 17 order.
+-U6     customer 6 received burger and leave.
+-A2     cashier 2 entertained customer 9 and ready for next.
+-A2     cashier 2 accept customer 18 order.
+-U14    customer 14 received burger and leave.
+-A4     cashier 4 entertained customer 24 and ready for next.
+-A4     cashier 4 accept customer 26 order.
+-O2     cook 2 on duty.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-O2     cook 2 made a burger.
+-A1     cashier 1 entertained customer 6 and ready for next.
+-A1     cashier 1 accept customer 27 order.
+-A1     cashier 1 serving a burger to customer 27.
+-A3     cashier 3 entertained customer 14 and ready for next.
+-A3     cashier 3 accept customer 5 order.
+-A3     cashier 3 serving a burger to customer 5.
+-O1     cook 1 on duty.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-A0     cashier 0 serving a burger to customer 17.
+-A2     cashier 2 serving a burger to customer 18.
+-A4     cashier 4 serving a burger to customer 26.
+-U27    customer 27 received burger and leave.
+-U5     customer 5 received burger and leave.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U17    customer 17 received burger and leave.
+-U26    customer 26 received burger and leave.
+-A1     cashier 1 entertained customer 27 and ready for next.
+-A1     cashier 1 accept customer 11 order.
+-A1     cashier 1 serving a burger to customer 11.
+-A3     cashier 3 entertained customer 5 and ready for next.
+-A3     cashier 3 accept customer 25 order.
+-A3     cashier 3 serving a burger to customer 25.
+-A0     cashier 0 entertained customer 17 and ready for next.
+-A0     cashier 0 accept customer 28 order.
+-A0     cashier 0 serving a burger to customer 28.
+-A4     cashier 4 entertained customer 26 and ready for next.
+-A4     cashier 4 accept customer 29 order.
+-A4     cashier 4 serving a burger to customer 29.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U11    customer 11 received burger and leave.
+-U25    customer 25 received burger and leave.
+-U28    customer 28 received burger and leave.
+-U29    customer 29 received burger and leave.
+-A1     cashier 1 entertained customer 11 and ready for next.
+-A1     cashier 1 accept customer 7 order.
+-A1     cashier 1 serving a burger to customer 7.
+-A3     cashier 3 entertained customer 25 and ready for next.
+-A3     cashier 3 accept customer 8 order.
+-A3     cashier 3 serving a burger to customer 8.
+-A0     cashier 0 entertained customer 28 and ready for next.
+-A0     cashier 0 accept customer 10 order.
+-A0     cashier 0 serving a burger to customer 10.
+-A4     cashier 4 entertained customer 29 and ready for next.
+-A4     cashier 4 accept customer 13 order.
+-A4     cashier 4 serving a burger to customer 13.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U7     customer 7 received burger and leave.
+-U8     customer 8 received burger and leave.
+-U10    customer 10 received burger and leave.
+-U13    customer 13 received burger and leave.
+-A1     cashier 1 entertained customer 7 and ready for next.
+-A1     cashier 1 accept customer 16 order.
+-A1     cashier 1 serving a burger to customer 16.
+-A3     cashier 3 entertained customer 8 and ready for next.
+-A3     cashier 3 accept customer 21 order.
+-A3     cashier 3 serving a burger to customer 21.
+-A0     cashier 0 entertained customer 10 and ready for next.
+-A0     cashier 0 accept customer 15 order.
+-A0     cashier 0 serving a burger to customer 15.
+-A4     cashier 4 entertained customer 13 and ready for next.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U16    customer 16 received burger and leave.
+-U21    customer 21 received burger and leave.
+-U15    customer 15 received burger and leave.
+-A1     cashier 1 entertained customer 16 and ready for next.
+-A1     cashier 1 accept customer 20 order.
+-A1     cashier 1 serving a burger to customer 20.
+-A3     cashier 3 entertained customer 21 and ready for next.
+-A3     cashier 3 accept customer 23 order.
+-A3     cashier 3 serving a burger to customer 23.
+-A0     cashier 0 entertained customer 15 and ready for next.
+-A0     cashier 0 accept customer 3 order.
+-A0     cashier 0 serving a burger to customer 3.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U20    customer 20 received burger and leave.
+-U23    customer 23 received burger and leave.
+-A1     cashier 1 entertained customer 20 and ready for next.
+-A1     cashier 1 accept customer 1 order.
+-A1     cashier 1 serving a burger to customer 1.
+-A3     cashier 3 entertained customer 23 and ready for next.
+-A3     cashier 3 accept customer 0 order.
+-A3     cashier 3 serving a burger to customer 0.
+-O1     cook 1 made a burger.
+-O1     cook 1 made a burger.
+-U1     customer 1 received burger and leave.
+-U0     customer 0 received burger and leave.
+-A1     cashier 1 entertained customer 1 and ready for next.
+-A3     cashier 3 entertained customer 0 and ready for next.
+-O0     cook 0 made a burger.
+-A1     cashier 1 accept customer 12 order.
+-A1     cashier 1 serving a burger to customer 12.
+-O1     cook 1 made a burger.
+-U12    customer 12 received burger and leave.
+-A1     cashier 1 entertained customer 12 and ready for next.
+-U2     customer 2 comes.
+-A3     cashier 3 accept customer 2 order.
+-A3     cashier 3 serving a burger to customer 2.
+-O1     cook 1 made a burger.
+-U2     customer 2 received burger and leave.
+-A3     cashier 3 entertained customer 2 and ready for next.
+-U3     customer 3 received burger and leave.
+-A0     cashier 0 entertained customer 3 and ready for next.
+-A4     cashier 4 accept customer 19 order.
+-O1     cook 1 made a burger.
+-A4     cashier 4 serving a burger to customer 19.
+-U19    customer 19 received burger and leave.
+-A4     cashier 4 entertained customer 19 and ready for next.
+-U18    customer 18 received burger and leave.
+-A2     cashier 2 entertained customer 18 and ready for next.
+-O2     cook2 off duty.
+-O0     cook0 off duty.
+-A1     cashier1 off duty.
+-A3     cashier3 off duty.
+-A0     cashier0 off duty.
+-O1     cook1 off duty.
+-A4     cashier4 off duty.
+-A2     cashier2 off duty.
+-------------------
+Complete.

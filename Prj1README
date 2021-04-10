@@ -1,0 +1,71 @@
+Project 1
+
+Weihao Jiang, 519021911045
+
+=== File tree structure ===
+
+.
+├── android.source.sh   Contains path, edit this with its internal 
+│                       instructions and source to build and run locally.
+├── helloworld.exc      2. Helloworld folder
+│   └── jni
+│       ├── Android.mk      Build file
+│       ├── hello.c         This is a sample code for ndk-building.
+│       └── hello.h         This is a sample code for ndk-building.
+├── ptree.mdl           3. ptree systemcall module
+│   ├── kassert.h           kernel assertion and try-catch structure
+│   ├── Makefile            Build file
+│   ├── ptree.c             the ptree kernel module file
+│   └── ptree.h             prinfo definitions and macros to get list item.
+├── Cptree.exc          4. ptree C program folder
+│   └── jni
+│       ├── Android.mk      Build file
+│       ├── ptree.h         this file is for prinfo definitions.
+│       └── tree.c          ptree printer
+├── ptreetest.exc       5. ptree test program
+│   └── jni
+│       ├── Android.mk      Build file
+│       └── test.c          Test the ptree by given ptree location.
+├── burger.exc          6. Burger Buddies Problem folder
+│   └── jni 
+│       ├── Android.mk      Build file
+│       ├── burger.c        Solve the burger buddies problem.
+│       └── burger.h        timed_wait function, error handling, init macros
+├── Makefile            Makefile for building, cf. instructions below
+├── Prj1README          This file
+├── run-sim.sh          Please refer to this on how to start AVD emulators.
+└── testruns.txt        Testruns containing all commands and outputs
+
+=== Build and run guide ===
+
+First edit the android.source.sh with its internal instructions, and 
+`source ./android.source.sh` to have the correct environment variables
+and PATH.
+
+With the Makefile in the root folder, you may use these commands to build:
+
+make                        Build all
+make build_all 
+
+make {folder name}          Build the module or executable in the folder
+
+If you want to check the code with AVD please 
+-    create an AVD named OSPrj519021911045 and run `./run-sim.sh` separately.
+- or create an avd.lock file in the directory to indicate AVD is created.
+
+Then you may use these commands:
+
+make testrun                                To run the testrun, which would
+                                            print contents like in the
+                                            testruns.txt .
+
+make push_all                               Push all executable and modules
+                                            to DEST_FOLDERS defined in the
+                                            Makefile
+
+make push_{folder name without extensions}  Push to DEST_FOLDERS defined in
+                                            the Makefile
+
+make load_{module fldr nm withoout exts.}   load the module
+
+make unload_{module fldr nm withoout exts.} unload the module

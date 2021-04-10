@@ -114,7 +114,6 @@ void print_node(node_t* root, int indent) {
     /* Print sufficient \t */
     for (i = 0; i < indent; i++) 
         printf("\t");
-    
     /* Print the wanted prinfo */
     /* Printing uid in %ld, as it's long */
     printf("%s,%d,%ld,%d,%d,%d,%ld\n", infoptr->comm, infoptr->pid,

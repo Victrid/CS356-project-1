@@ -2,7 +2,7 @@
 obj-m := ptree.o
 #ptreeko-objs := ptree.o
 
-KID := ../kernel/goldfish
+KID := $${KERN}
 
 CROSS_COMPILE=arm-linux-androideabi-
 CC=$(CROSS_COMPILE)gcc

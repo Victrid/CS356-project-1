@@ -1,5 +1,6 @@
 MODULES=$(wildcard *.mdl)
 EXECS=$(wildcard *.exc)
+DEST_FOLDERS=$${DEST_FOLDER}
 
 .PHONY: build_all clean
 build_all: build_exec_all build_module_all
@@ -33,8 +34,8 @@ $(patsubst %.mdl,clean_mdl_%,${MODULES}):
 	+make -C ${patsubst clean_mdl_%,%.mdl,$@} clean
 
 $(patsubst %.mdl,push_%,${MODULES}): push_% :%.mdl avd.lock
-	adb shell "mkdir -p /data/misc/osprj"
-	adb push ${patsubst push_%,%.mdl,$@}/*.ko /data/misc/osprj
+	adb shell "mkdir -p ${DEST_FOLDERS}"
+	adb push ${patsubst push_%,%.mdl,$@}/*.ko ${DEST_FOLDERS}
 
 .PHONY: $(patsubst %.mdl,load_%,${MODULES}) $(patsubst %.mdl, unload_%,${MODULES})
 
@@ -43,23 +44,49 @@ $(patsubst %.mdl,load_%,${MODULES}): load_% : push_%
 	exit -1; \
 	fi
 	_module_file="$(notdir $(wildcard ${patsubst load_%,%.mdl,$@}/*.ko))"; \
-		     adb shell "insmod /data/misc/osprj/$${_module_file}"
+		     adb shell "insmod ${DEST_FOLDERS}/$${_module_file}"
 	touch .$@
 
 $(patsubst %.mdl, unload_%,${MODULES}): unload_% : .load_%
 	_module_file="$(notdir $(wildcard ${patsubst unload_%,%.mdl,$@}/*.ko))"; \
-		     adb shell "rmmod /data/misc/osprj/$${_module_file}"
+		     adb shell "rmmod ${DEST_FOLDERS}/$${_module_file}"
 	rm ${patsubst unload_%, .load_%,$@}
 
 .PHONY: $(pathsubst %.exc, push_%,${EXECS}) $(patsubst %.exc, run_%,${EXECS})
 
 $(patsubst %.exc, push_%, ${EXECS}): push_%: %.exc avd.lock
-	adb shell "mkdir -p /data/misc/osprj"
-	adb push ${patsubst push_%, %.exc, $@}/libs/armeabi/* /data/misc/osprj
+	adb shell "mkdir -p ${DEST_FOLDERS}"
+	adb push ${patsubst push_%, %.exc, $@}/libs/armeabi/* ${DEST_FOLDERS}
 
 $(patsubst %.exc, run_%, ${EXECS}): run_%: push_%
 	_exe_file="$(notdir $(wildcard ${patsubst run_%,%.exc,$@}/libs/armeabi/*))"; \
-		  adb shell "/data/misc/osprj/$${_exe_file}"
+		  adb shell "${DEST_FOLDERS}/$${_exe_file}"
 
 clean: | clean_module clean_exec
+
+testrun: avd.lock push_all
+	adb shell "${DEST_FOLDERS}/helloARM"
+	adb shell "echo robust ptree without module"
+	adb shell "${DEST_FOLDERS}/ptree || true"
+	adb shell "echo load module and run again"
+	adb shell "insmod ${DEST_FOLDERS}/ptree.ko"
+	adb shell "${DEST_FOLDERS}/ptree"
+	adb shell "echo robust ptreetest input"
+	adb shell "${DEST_FOLDERS}/ptreetest || true"
+	adb shell "echo robust ptreetest without module"
+	adb shell "rmmod ${DEST_FOLDERS}/ptree.ko"
+	adb shell "${DEST_FOLDERS}/ptreetest ${DEST_FOLDERS}/ptree || true"
+	adb shell "echo load module and run again"
+	adb shell "insmod ${DEST_FOLDERS}/ptree.ko"
+	adb shell "${DEST_FOLDERS}/ptreetest ${DEST_FOLDERS}/ptree"
+	adb shell "echo burger buddies problem"
+	adb shell "echo robust input"
+	adb shell "${DEST_FOLDERS}/burger || true"
+	adb shell "${DEST_FOLDERS}/burger 1 2 4 -1 || true"
+	adb shell "echo sample 1"
+	adb shell "${DEST_FOLDERS}/burger 1 1 1 5"
+	adb shell "echo sample 2"
+	adb shell "${DEST_FOLDERS}/burger 10 3 5 30"
+
+
 
