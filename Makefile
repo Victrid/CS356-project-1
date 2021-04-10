@@ -20,6 +20,8 @@ $(patsubst %.exc,clean_exec_%,${EXECS}):
 .PHONY: $(MODULES) build_module_all clean_module 
 .PHONY: $(patsubst %.mdl,clean_mdl_%,${MODULES})
 
+push_all : | $(patsubst %.mdl,push_%,${MODULES}) $(patsubst %.exc, push_%, ${EXECS})
+
 build_module_all: | $(MODULES)
 
 clean_module: | $(patsubst %.mdl,clean_mdl_%,${MODULES})
